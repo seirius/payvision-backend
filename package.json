@@ -1,0 +1,19 @@
+{
+  "name": "payvision-backend",
+  "version": "1.0.0",
+  "description": "Payvision fullstack challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seirius/payvision-backend.git"
+  },
+  "author": "Andriy Yednarovych",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seirius/payvision-backend/issues"
+  },
+  "homepage": "https://github.com/seirius/payvision-backend#readme"
+}
