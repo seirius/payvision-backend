@@ -4,7 +4,7 @@ const { getTransactions } = require("./../src/transactions-route");
 
 
 describe("Transactions Route", () => {
-    describe("transactions-route.getTransactions() function with no query params", () => {
+    describe("transactions-route.getTransactions() function with no filters", () => {
         let req = {
             query: {}
         };
@@ -20,53 +20,58 @@ describe("Transactions Route", () => {
         });
     });
 
-    describe("transactions-route.getTransactions() function with invalid currencyCode value", () => {
+    describe("transactions-route.getTransactions() function with 'currencyCode' filter", () => {
         let req = {
             query: {
-                currencyCode: "NONVALID"
+                currencyCode: "EUR"
             }
         };
         let res = {
             sendCalledWith: "",
-            status: null,
             send: function(args) {
                 this.sendCalledWith = args;
-            },
-            status: function(st) {
-                this.status = st;
             }
         };
-        it("Should fail with invalid currencyCode value", async () => {
-            try {
-                await getTransactions(req, res);
-            } catch(error) {
-                expect(res).to.be.an("object").and.to.have.property("status", 400);
-            }
+        it("Should return transactions filtered by 'currencyCode': 'EUR'", async () => {
+            await getTransactions(req, res);
+            assert.isArray(res.sendCalledWith);
         });
     });
 
-    describe("transactions-route.getTransactions() function with invalid action value", () => {
+    describe("transactions-route.getTransactions() function with 'action' filter", () => {
         let req = {
             query: {
-                action: "NONVALID"
+                action: "payment"
             }
         };
         let res = {
             sendCalledWith: "",
-            status: null,
             send: function(args) {
                 this.sendCalledWith = args;
-            },
-            status: function(st) {
-                this.status = st;
             }
         };
-        it("Should fail with invalid action value", async () => {
-            try {
-                await getTransactions(req, res);
-            } catch(error) {
-                expect(res).to.be.an("object").and.to.have.property("status", 400);
+        it("Should return transactions filtered by 'action': 'payment'", async () => {
+            await getTransactions(req, res);
+            assert.isArray(res.sendCalledWith);
+        });
+    });
+
+    describe("transactions-route.getTransactions() function with 'action' and 'currencyCode' filters", () => {
+        let req = {
+            query: {
+                action: "payment",
+                currencyCode: "EUR"
             }
+        };
+        let res = {
+            sendCalledWith: "",
+            send: function(args) {
+                this.sendCalledWith = args;
+            }
+        };
+        it("Should return transactions filtered by 'action': 'payment' and 'currencyCode': 'EUR'", async () => {
+            await getTransactions(req, res);
+            assert.isArray(res.sendCalledWith);
         });
     });
 });
